@@ -24,7 +24,7 @@ pipeline {
                         """
                         pwd()
                         cd ${DIR}/${PROJECT_ID}
-                        def jsonFile = readFile('deploy.json')
+                        def jsonFile = readFile("${DIR}/${PROJECT_ID}/deploy.json")
                         def jsonData = readJSON text: jsonFile
                     // Extract values
                         env.WORKSPACE = jsonData.workspace
