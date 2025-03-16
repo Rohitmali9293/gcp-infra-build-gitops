@@ -22,7 +22,7 @@ pipeline {
                             git submodule update --init --recursive --remote --force
                             ls -l
                         """
-                        def jsonFile = readFile("${WORKSPACE}/${PROJECT_ID}/deploy.json")
+                        def jsonFile = readFile("${DIR}/${PROJECT_ID}/deploy.json")
                         def jsonData = readJSON text: jsonFile
                     // Extract values
                         env.WORKSPACE = jsonData.workspace
