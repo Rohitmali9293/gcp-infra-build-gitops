@@ -56,5 +56,28 @@ pipeline {
                 }
             }
         }
+        stage('tf-apply') {
+            steps {
+                withCredentials([file(credentialsId: "$PROJECT_ID", variable: 'keyjason')]) {
+                    script {
+                        input (message: 'click "procced" to approve', ok: 'procced')
+                        echo 'Running terraform apply...'
+                        sh """
+                            gcloud auth activate-service-account --key-file="${keyjason}" --project=${PROJECT_ID}
+                            cd ${DIR}/${PROJECT_ID}/templates/${MODULE}
+                            terraform init
+                            if terraform workspace list | grep -q "\\b$WORKSPACE\\b"; then
+                                echo "Workspace '$WORKSPACE' exists. Selecting it..."
+                                terraform workspace select "$WORKSPACE"
+                            else
+                                echo "Workspace '$WORKSPACE' does not exist. Creating and selecting it..."
+                                terraform workspace new "$WORKSPACE"
+                            fi
+                            terraform apply -auto-approve -var-file=${DIR}/${PROJECT_ID}/variables.tfvars
+                        """
+                    }
+                }
+            }
+        }
     } 
 }
