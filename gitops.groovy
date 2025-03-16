@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'cm-linux'}
     triggers {
-        githubPullRequestTrigger() // Auto-triggers on new PR
+        githubPullRequest() // Auto-triggers on new PR
     }
     options {
         timeout (time: 5, unit: 'MINUTES')
