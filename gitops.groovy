@@ -1,5 +1,8 @@
 pipeline {
     agent { label 'cm-linux'}
+    triggers {
+        githubPullRequestTrigger() // Auto-triggers on new PR
+    }
     options {
         timeout (time: 5, unit: 'MINUTES')
         timestamps()
@@ -57,6 +60,9 @@ pipeline {
             }
         }
         stage('tf-apply') {
+            when {
+                branch 'main' // Only deploy if PR is merged to main
+            }
             steps {
                 withCredentials([file(credentialsId: "$PROJECT_ID", variable: 'keyjason')]) {
                     script {
