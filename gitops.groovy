@@ -34,5 +34,27 @@ pipeline {
                 }
             }
         }
+        stage('tf-plan') {
+            steps {
+                withCredentials([file(credentialsId: "$PROJECT_ID", variable: 'keyjason')]) {
+                    script {
+                        echo 'Running terraform plan...'
+                        sh """
+                            gcloud auth activate-service-account --key-file="${keyjason}" --project=${PROJECT_ID}
+                            cd ${DIR}/${PROJECT_ID}/templates/${MODULE}
+                            terraform init -backend-config="bucket=${PROJECT_ID}-terraform-backup" -backend-config="prefix=${WORKSPACE}/${MODULE}"
+                            if terraform workspace list | grep -q "\\b$WORKSPACE\\b"; then
+                                echo "Workspace '$WORKSPACE' exists. Selecting it..."
+                                terraform workspace select "$WORKSPACE"
+                            else
+                                echo "Workspace '$WORKSPACE' does not exist. Creating and selecting it..."
+                                terraform workspace new "$WORKSPACE"
+                            fi
+                            terraform plan -out=tfplan -var-file=${DIR}/${PROJECT_ID}/variables.tfvars
+                        """
+                    }
+                }
+            }
+        }
     } 
 }
