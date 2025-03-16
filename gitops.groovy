@@ -9,6 +9,7 @@ pipeline {
         ansiColor('xtream')
     }
     environment {
+        GIT_REPO = 'https://github.com/Rohitmali9293/tf-9293-sandbox.git'
         PROJECT_ID = "tf-9293-sandbox"
         DIR = pwd()
     }
