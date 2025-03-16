@@ -16,14 +16,12 @@ pipeline {
                     withCredentials([string(credentialsId: 'git-token1', variable: 'GIT_TOKEN')]) {
                         echo 'clone the repository...'
                         sh """
-                            rm -rf ${PROJECT_ID}
+                            rm -rf "${PROJECT_ID}"
                             git clone https://${GIT_TOKEN}@github.com/Rohitmali9293/${PROJECT_ID}.git
-                            cd ${DIR}/${PROJECT_ID}
+                            cd "${DIR}/${PROJECT_ID}"
                             git submodule update --init --recursive --remote --force
                             ls -l
                         """
-                        pwd()
-                        cd ${DIR}/${PROJECT_ID}
                         def jsonFile = readFile("${DIR}/${PROJECT_ID}/deploy.json")
                         def jsonData = readJSON text: jsonFile
                     // Extract values
