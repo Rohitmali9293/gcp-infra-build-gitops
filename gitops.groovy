@@ -1,11 +1,11 @@
 pipeline {
-    agnet { label 'cm-linux'}
+    agent { label 'cm-linux'}
     options {
         timeout (time: 5, unit: 'MINUTES')
         timestamps()
         ansiColor('xtream')
     }
-    eanviroments{
+    environment {
         PROJECT_ID = "tf-9293-sandbox"
     }
     stages {
