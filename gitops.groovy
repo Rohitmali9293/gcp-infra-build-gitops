@@ -10,6 +10,7 @@ pipeline {
     }
     environment {
         GIT_REPO = 'https://github.com/Rohitmali9293/tf-9293-sandbox.git'
+        GIT_CREDENTIALS_ID = 'git-token1'
         JENKINSFILE_REPO = 'https://github.com/Rohitmali9293/gcp-infra-build-gitops.git'
         PROJECT_ID = "tf-9293-sandbox"
         DIR = pwd()
