@@ -7,6 +7,7 @@ pipeline {
     }
     environment {
         PROJECT_ID = "tf-9293-sandbox"
+        DIR = pwd()
     }
     stages {
         stage ('Project info checkout') {
