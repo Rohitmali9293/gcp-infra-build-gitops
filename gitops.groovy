@@ -22,6 +22,7 @@ pipeline {
                             git submodule update --init --recursive --remote --force
                             ls -l
                         """
+                        pwd()
                         cd ${DIR}/${PROJECT_ID}
                         def jsonFile = readFile('deploy.json')
                         def jsonData = readJSON text: jsonFile
